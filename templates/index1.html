@@ -1,0 +1,79 @@
+{#<html>#}
+{#<head>#}
+{#<title>index</title>#}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+{#<link rel = "stylesheet" href="{% static 'bootstrap/css/font-awesome.min.css' %}">#}
+{#<link rel = "stylesheet" href="css/style.css">#}
+{#</head>#}
+{#<body>#}
+{% extends 'base.html' %}
+{% block title %}Insert Form{% endblock %}
+{% block body %}
+{#<body>#}
+<form method="post" action="{% url 'index1' %}" enctype = "multipart/form-data">
+{% csrf_token %}
+<div class="badge bg-primary text-center" style="font-size: 30px ">
+    <label>upload file here</label>
+</div>
+{#<label><h2>upload file here</h2></label>#}
+<br>
+<label class="file">
+<br>
+    <input type ="file" id ="document" name ="document" multiple onchange ="myfunction()"><br>
+    <button id = "submit" class = "btn-primary"> Upload </button><br>
+</label>
+
+    <p id = "demo"> </p>
+{#<script src = "js/jquery.min.js"> </script>#}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+{#<script src ="templates/custom.js"> </script>#}
+<script>
+    myfunction=()=>{
+    var x = document.getElementById("document");
+    var txt = "";
+    if('files' in x){
+        if(x.files.length == 0){
+            txt = "Select One File";
+
+        }
+        else{
+            for(var i=0; i<x.files.length; i++){
+                txt += "<br> <strong>" + (i+1) + ".File </strong> <br>";
+                var file = x.files[i];
+                if('name' in file){
+                    txt += "Name:" + file.name + "<br>";
+
+                }
+                if('size' in file){
+                    txt += "Size:" + file.size + "bytes <br>";
+
+                }
+            }
+        }
+    }
+    else{
+        if(x.value == ""){
+            txt += "Select one or more than one file";
+        }
+        else{
+            txt += "The file property is not supported in your browser";
+            txt += "<br> the path of the file:" + x.value;
+        }
+    }
+    document.getElementById("demo").innerHTML = txt;
+}
+</script>
+</form>
+{% endblock %}
+{% block messages %}
+        {% if messages %}
+            <div class = "container" style = "color:firebrick; margin-top: 20px">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endblock %}
+{#</body>#}
+{#</html>#}
